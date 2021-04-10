@@ -16,7 +16,7 @@ source = ColumnDataSource(
               lon=[-97.70, -97.74, -97.78])
 )
 
-#p.circle(x="lon", y="lat", size=15, fill_color="blue", fill_alpha=0.8, source=source)
+p.circle(x="lon", y="lat", size=15, fill_color="blue", fill_alpha=0.8, source=source)
 
 output_file(filename="./templates/maps.html", title="Static HTML file")
 

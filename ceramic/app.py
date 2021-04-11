@@ -3,7 +3,7 @@ import dash_core_components as dcc
 import dash_table
 import dash_html_components as html
 import pandas as pd
-from ceramic.graphlib import map_graph
+from graphlib import map_graph
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 

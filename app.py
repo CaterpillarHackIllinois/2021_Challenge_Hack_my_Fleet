@@ -14,7 +14,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 print(os.listdir())
-df = pd.read_csv('ceramic/sample_data/by_month_cluster_200.csv')
+df = pd.read_csv('https://hack-objectstore.nyc3.digitaloceanspaces.com/by_month_cluster_200.csv')
 
 
 # Options for control panel, feel free to change around!!!!

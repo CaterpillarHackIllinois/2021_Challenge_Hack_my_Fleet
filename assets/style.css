@@ -24,8 +24,21 @@ time, mark, audio, video {
 }
 
 #charts {
+    justify-content: space-around;
     background-color: #231F20;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#table1 {
+    max-width: 100%;
+    /* align-items: center; */
+}
+
+#scatter-graph1 {
+    max-width: 100%;
 }
 #side-bar{
     background-color: #FFCD05;

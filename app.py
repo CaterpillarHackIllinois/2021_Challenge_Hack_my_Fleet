@@ -17,7 +17,7 @@ server = app.server
 print(os.listdir())
 df = pd.read_csv('https://hack-objectstore.nyc3.digitaloceanspaces.com/by_month_cluster_200.csv')
 
-colors = {'yellow': '#FFCD05', 'dark-gray': '#231F20', 'white': '#FFFFFF'}
+colors = {'yellow': '#FFCD05', 'dark-gray': '#231F20', 'white': '#FFFFFF', 'light-gray': '#d3d3d3'}
 
 # Options for control panel, feel free to change around!!!!
 genders = {"Female": 0, "Male": 1, }
@@ -76,13 +76,26 @@ app.layout = html.Div([
 
     html.Div([
         dcc.Graph(
-            id='scatter-graph',
+            id='scatter-graph1',
             figure=map_graph(df)
         ),
         dash_table.DataTable(
-        id='table',
-        columns=[{"name": i, "id": i} for i in df.columns],
-        data=df.head(10).to_dict('records'),
+            id='table1',
+            style_cell={
+                'padding': '5px',
+                'backgroundColor': colors['dark-gray'],
+                'color': colors['white'],
+            },
+            style_data={ 'border': '0px solid blue' },
+            style_header={
+                'backgroundColor': colors['dark-gray'],
+                'fontWeight': 'bold',
+                'color': colors['white'],
+                'border': '1px solid #d3d3d3'
+            },
+            columns=[{"name": i, "id": i} for i in df.columns],
+            data=df.head(7).to_dict('records'),
+            style_as_list_view=True,
         )
     ], id='charts'),
 ], id='hero')

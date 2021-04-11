@@ -32,11 +32,12 @@ productivity = {"I am Yoda": 250, "Work hard, play-hard": 170, "I take things ea
 app.layout = html.Div([
 
     html.Div([
-        html.H1('MyCaterPillars', className="app-header"),
+        html.Img(src = "assets/images/logo.png", id = "logo"),
+        html.H1('FUEL ANALYTICS', className="app-header"),
 
-        html.Div(children='''
-        A dashboard for fleet fuel management and optimization!
-        '''),
+        # html.Div(children='''
+        # A dashboard for fleet fuel management and optimization!
+        # '''),
         html.Div([
             html.Div(["Gender: ", dcc.Dropdown(id='gender',
                                             options=[{'label': k, 'value': v} for k, v in genders.items()],
@@ -86,16 +87,16 @@ app.layout = html.Div([
                 'backgroundColor': colors['dark-gray'],
                 'color': colors['white'],
             },
-            style_data={ 'border': '0px solid blue' },
+            style_data={ 'border': '0px solid #d3d3d3' },
             style_header={
                 'backgroundColor': colors['dark-gray'],
                 'fontWeight': 'bold',
                 'color': colors['white'],
-                'border': '1px solid #d3d3d3'
+                'border': '0px solid #d3d3d3'
             },
             columns=[{"name": i, "id": i} for i in df.columns],
             data=df.head(7).to_dict('records'),
-            style_as_list_view=True,
+            # style_as_list_view=True,
         )
     ], id='charts'),
 ], id='hero')

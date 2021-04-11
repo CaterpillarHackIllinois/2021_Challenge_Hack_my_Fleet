@@ -1,5 +1,6 @@
 import dash
 import dash_core_components as dcc
+import dash_table
 import dash_html_components as html
 import plotly.express as px
 import pandas as pd
@@ -26,13 +27,6 @@ fig.update_layout(
                 "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}"
             ]
         },
-        {
-            "sourcetype": "raster",
-            "sourceattribution": "Government of Canada",
-            "source": ["https://geo.weather.gc.ca/geomet/?"
-                       "SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX={bbox-epsg-3857}&CRS=EPSG:3857"
-                       "&WIDTH=1000&HEIGHT=1000&LAYERS=RADAR_1KM_RDBR&TILED=true&FORMAT=image/png"],
-        }
       ])
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 # fig = px.bar(df, x="cluster_label", y="Fuel Used Per Hour", color="AssetID", barmode="group")
@@ -47,6 +41,11 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='example-graph',
         figure=fig
+    ),
+    dash_table.DataTable(
+    id='table',
+    columns=[{"name": i, "id": i} for i in df.columns],
+    data=df.head(10).to_dict('records'),
     )
 ])
 

@@ -10,19 +10,38 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # assume you have a "long-form" data frame
 # see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
+df = pd.read_csv('sample_data/by_month_cluster_200.csv')
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+fig = px.scatter_mapbox(df, lat="GPS Lattitude_y", lon="GPS Longitude_y", hover_name="cluster_label",
+                  hover_data=["AssetID"],color_discrete_sequence=["fuchsia"], zoom=3, height=300)
+
+fig.update_layout(
+    mapbox_style="white-bg",
+    mapbox_layers=[
+        {
+            "below": 'traces',
+            "sourcetype": "raster",
+            "sourceattribution": "United States Geological Survey",
+            "source": [
+                "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}"
+            ]
+        },
+        {
+            "sourcetype": "raster",
+            "sourceattribution": "Government of Canada",
+            "source": ["https://geo.weather.gc.ca/geomet/?"
+                       "SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX={bbox-epsg-3857}&CRS=EPSG:3857"
+                       "&WIDTH=1000&HEIGHT=1000&LAYERS=RADAR_1KM_RDBR&TILED=true&FORMAT=image/png"],
+        }
+      ])
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+# fig = px.bar(df, x="cluster_label", y="Fuel Used Per Hour", color="AssetID", barmode="group")
 
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+    html.H1(children='MyCaterPillars'),
 
     html.Div(children='''
-        Dash: A web application framework for Python.
+        A dashboard for fleet management!
     '''),
 
     dcc.Graph(

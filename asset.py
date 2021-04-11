@@ -8,21 +8,13 @@ from bokeh.layouts import widgetbox
 from bokeh.transform import factor_cmap
 from bokeh.layouts import column
 
-df=pd.read_csv('C:\\Users\\GG_Mosuru\\Desktop\\hack_illinois_part1.csv')
-df.head()
-df1=pd.read_csv('C:\\Users\\GG_Mosuru\\Desktop\\hack_illinois_part2.csv')
-print(df.head())
-print(df1.tail())
+df=pd.read_csv('./Dataset/hack_illinois_part1.csv')
+df1=pd.read_csv('./Dataset/hack_illinois_part2.csv')
+
+
 dfmerged=pd.concat([df, df1], ignore_index=True)
-print(dfmerged.head())
-print(dfmerged.tail())
 dfsort = (dfmerged.groupby(['AssetID', 'Asset type']).mean().reset_index())
-print(dfsort.head())
-print(dfsort.tail())
 dfsort['Efficiency (liters per hour)'] = dfsort.apply(lambda x: x['Total Fuel (Liters)'] / x['Total Hours'], axis=1)
-print(dfsort.head())
-print(dfsort.tail())
-print(dfsort.info())
 print(dfsort.loc[dfsort["Efficiency (liters per hour)"].idxmax()])
 print(dfsort.loc[dfsort["Efficiency (liters per hour)"].idxmin()])
 

@@ -4,11 +4,15 @@ import dash_table
 import dash_html_components as html
 import pandas as pd
 from graphlib import map_graph
+import os
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-import os
+
+# deployment heroku
+server = app.server
+
 print(os.listdir())
 df = pd.read_csv('ceramic/sample_data/by_month_cluster_200.csv')
 

@@ -23,7 +23,7 @@ print(dfsort.loc[dfsort["Efficiency (liters per hour)"].idxmax()])
 print(dfsort.loc[dfsort["Efficiency (liters per hour)"].idxmin()])
 
 
-sample = dfsort.sample(50)
+sample = dfsort.sample(20000)
 source = ColumnDataSource(sample)
 
 
@@ -32,7 +32,7 @@ output_file("gg.html")
 p = figure()
 p.circle(x='Total Fuel (Liters)', y='Total Hours',
          source=source,
-         size=10, color='green')
+         size=5, color='green')
 
 p.title.text = 'Assets and their fuel consumption'
 p.xaxis.axis_label = 'Average fuel consumed over a year in Liters'
@@ -42,7 +42,8 @@ hover = HoverTool()
 hover.tooltips=[
     ('Asset ID', '@AssetID'),
     ('Asset Type', '@{Asset type}'),
-    ('Average fuel level', '@{Fuel Level (%)}')
+    ('Average fuel level', '@{Fuel Level (%)}'),
+    ('Efficiency', '@{Efficiency (liters per hour)}')
 ]
 
 p.add_tools(hover)

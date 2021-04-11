@@ -3,7 +3,7 @@ import plotly.express as px
 def map_graph(df):
 
     fig = px.scatter_mapbox(df, lat="GPS Lattitude_y", lon="GPS Longitude_y", hover_name="cluster_label",
-                            hover_data=["AssetID"], color_discrete_sequence=["fuchsia"], zoom=3, height=300)
+                            hover_data=["AssetID"], color="cluster_label", color_continuous_scale=px.colors.sequential.Blues, zoom=3, height=300)
 
     fig.update_layout(
         mapbox_style="white-bg",

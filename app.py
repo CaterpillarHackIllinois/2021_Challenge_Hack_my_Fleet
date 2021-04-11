@@ -6,9 +6,10 @@ import pandas as pd
 from graphlib import map_graph
 import os
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+# app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__)
 
 # deployment heroku
 server = app.server
@@ -16,6 +17,7 @@ server = app.server
 print(os.listdir())
 df = pd.read_csv('https://hack-objectstore.nyc3.digitaloceanspaces.com/by_month_cluster_200.csv')
 
+colors = {'yellow': '#FFCD05', 'dark-gray': '#231F20', 'white': '#FFFFFF'}
 
 # Options for control panel, feel free to change around!!!!
 genders = {"Female": 0, "Male": 1, }
@@ -30,50 +32,51 @@ productivity = {"I am Yoda": 250, "Work hard, play-hard": 170, "I take things ea
 app.layout = html.Div([
 
     html.Div([
-        html.H1(children='MyCaterPillars'),
+        html.H1('MyCaterPillars', className="app-header"),
+
         html.Div(children='''
         A dashboard for fleet fuel management and optimization!
         '''),
-    ]),
+        html.Div([
+            html.Div(["Gender: ", dcc.Dropdown(id='gender',
+                                            options=[{'label': k, 'value': v} for k, v in genders.items()],
+                                            value=1)]),
+            html.Br(),
+            html.Div(["Highest Education: ", dcc.Dropdown(id='education',
+                                                        options=[{'label': k, 'value': v} for k, v in educations.items()],
+                                                        value=2, )]),
+            html.Br(),
+            html.Div(["Age: ", dcc.Dropdown(id='age',
+                                            options=[{'label': k, 'value': v} for k, v in ages.items()],
+                                            value=0, )]),
+            html.Br(),
+            html.Div(["Socio-Economic-Range: ", dcc.Dropdown(id='soecon',
+                                                            options=[{'label': k, 'value': v} for k, v in socio.items()],
+                                                            value=55.0, )]),
+            html.Br(),
+            html.Div(
+                ["Num of Prev Attempts (for course you'll be taking): ", dcc.Input(id='attempt', value=0, type='number')]),
+            html.Br(),
+            html.Div(["Credits (30-300): ", dcc.Input(id='credit', value='30', type='number')]),
+            html.Br(),
+            html.Div(["Disability: ", dcc.Dropdown(id='disability',
+                                                options=[{'label': k, 'value': v} for k, v in disability.items()],
+                                                value=0)]),
+            html.Br(),
+            html.Div(["How Productive are you?: ", dcc.Dropdown(id='productivity',
+                                                                options=[{'label': k, 'value': v} for k, v in
+                                                                        productivity.items()],
+                                                                value=170)]),
+            html.Br(),
+            html.H6(children=[html.Div(id='my-output', )])
+        ], id='control-panel')
+    ], id='side-bar'),
 
-    html.Div([
-        html.Div(["Gender: ", dcc.Dropdown(id='gender',
-                                           options=[{'label': k, 'value': v} for k, v in genders.items()],
-                                           value=1)]),
-        html.Br(),
-        html.Div(["Highest Education: ", dcc.Dropdown(id='education',
-                                                      options=[{'label': k, 'value': v} for k, v in educations.items()],
-                                                      value=2, )]),
-        html.Br(),
-        html.Div(["Age: ", dcc.Dropdown(id='age',
-                                        options=[{'label': k, 'value': v} for k, v in ages.items()],
-                                        value=0, )]),
-        html.Br(),
-        html.Div(["Socio-Economic-Range: ", dcc.Dropdown(id='soecon',
-                                                         options=[{'label': k, 'value': v} for k, v in socio.items()],
-                                                         value=55.0, )]),
-        html.Br(),
-        html.Div(
-            ["Num of Prev Attempts (for course you'll be taking): ", dcc.Input(id='attempt', value=0, type='number')]),
-        html.Br(),
-        html.Div(["Credits (30-300): ", dcc.Input(id='credit', value='30', type='number')]),
-        html.Br(),
-        html.Div(["Disability: ", dcc.Dropdown(id='disability',
-                                               options=[{'label': k, 'value': v} for k, v in disability.items()],
-                                               value=0)]),
-        html.Br(),
-        html.Div(["How Productive are you?: ", dcc.Dropdown(id='productivity',
-                                                            options=[{'label': k, 'value': v} for k, v in
-                                                                     productivity.items()],
-                                                            value=170)]),
-        html.Br(),
-        html.H6(children=[html.Div(id='my-output', )])
-
-    ], id='control_panel'),
+    
 
     html.Div([
         dcc.Graph(
-            id='example-graph',
+            id='scatter-graph',
             figure=map_graph(df)
         ),
         dash_table.DataTable(
@@ -81,8 +84,8 @@ app.layout = html.Div([
         columns=[{"name": i, "id": i} for i in df.columns],
         data=df.head(10).to_dict('records'),
         )
-    ]),
-])
+    ], id='charts'),
+], id='hero')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
